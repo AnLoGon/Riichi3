@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0F172A"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <!-- Top TabLayout -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1E293B"
+        app:tabIndicatorColor="#10B981"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="#10B981"
+        app:tabTextColor="#94A3B8"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Combinación" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Puntuación Extra" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <!-- CONTENT 1: Combinación Tab Layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutCombination"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Tablero Blanco Vacío (Board) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/boardCard"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:backgroundTint="#FDFBF7"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            app:strokeColor="#E2E8F0"
+            app:strokeWidth="1dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <!-- Hand Tiles Row -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mano Cerrada:"
+                    android:textColor="#475569"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:fillViewport="true"
+                    android:scrollbars="none"
+                    android:layout_marginBottom="2dp">
+
+                    <LinearLayout
+                        android:id="@+id/boardTilesLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical" />
+                </HorizontalScrollView>
+
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E2E8F0"
+                    android:layout_marginBottom="2dp" />
+
+                <!-- Declared Melds Row -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Melds Declarados (Chi / Pon / Kan):"
+                    android:textColor="#475569"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/boardMeldsLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical" />
+                </HorizontalScrollView>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Meld Declaration Buttons Row -->
+        <LinearLayout
+            android:id="@+id/layoutMeldButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/boardCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMeldChi"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:text="CHI"
+                android:textSize="11sp"
+                app:backgroundTint="@color/button_checked_background"
+                android:textColor="@color/button_checked_text"
+                android:checkable="true"
+                app:strokeColor="@color/button_checked_stroke_green"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMeldPon"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:text="PON"
+                android:textSize="11sp"
+                app:backgroundTint="@color/button_checked_background"
+                android:textColor="@color/button_checked_text"
+                android:checkable="true"
+                app:strokeColor="@color/button_checked_stroke_green"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMeldKan"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:text="KAN"
+                android:textSize="11sp"
+                app:backgroundTint="@color/button_checked_background"
+                android:textColor="@color/button_checked_text"
+                android:checkable="true"
+                app:strokeColor="@color/button_checked_stroke_green"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMeldAnkan"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:layout_margin="2dp"
+                android:text="KAN OCUL."
+                android:textSize="10sp"
+                app:backgroundTint="@color/button_checked_background"
+                android:textColor="@color/button_checked_text"
+                android:checkable="true"
+                app:strokeColor="@color/button_checked_stroke_green"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+        </LinearLayout>
+
+        <!-- Tile Counter & Info -->
+        <TextView
+            android:id="@+id/textTileCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Fichas: 0 / 14"
+            android:textColor="#F8FAFC"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/layoutMeldButtons"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="* Haz clic en una ficha del tablero para eliminarla"
+            android:textColor="#94A3B8"
+            android:textSize="11sp"
+            android:textStyle="italic"
+            app:layout_constraintTop_toBottomOf="@id/layoutMeldButtons"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Buttons Grid Title -->
+        <TextView
+            android:id="@+id/textSelectTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Selecciona tus fichas:"
+            android:textColor="#34D399"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/textTileCount"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Horizontal Scrollable Selector for Row 1 -->
+        <TextView
+            android:id="@+id/labelRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Caracteres (1/9) + Vientos + Dragones"
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/textSelectTitle"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <HorizontalScrollView
+            android:id="@+id/scrollRow1"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="4dp"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/labelRow1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageButton android:id="@+id/btnMan1" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/man1" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnMan9" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/man9" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnWindEast" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/east" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnWindSouth" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/south" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnWindWest" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/west" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnWindNorth" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/north" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnDragonWhite" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background_white_dragon" android:src="@drawable/white_dragon" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnDragonGreen" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/green_dragon" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnDragonRed" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/red_dragon" android:scaleType="fitCenter" android:padding="4dp" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Circles (Row 2) -->
+        <TextView
+            android:id="@+id/labelRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Círculos (1 - 9)"
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/scrollRow1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <HorizontalScrollView
+            android:id="@+id/scrollRow2"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="4dp"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/labelRow2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageButton android:id="@+id/btnPin1" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/pin1" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnPin2" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/pin2" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnPin3" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/pin3" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnPin4" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/pin4" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnPin5" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/pin5" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnPin6" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/pin6" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnPin7" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/pin7" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnPin8" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/pin8" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnPin9" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/pin9" android:scaleType="fitCenter" android:padding="4dp" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Bamboo (Row 3) -->
+        <TextView
+            android:id="@+id/labelRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Bambúes (1 - 9)"
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/scrollRow2"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <HorizontalScrollView
+            android:id="@+id/scrollRow3"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="4dp"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/labelRow3">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageButton android:id="@+id/btnSou1" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/sou1" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnSou2" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/sou2" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnSou3" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/sou3" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnSou4" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/sou4" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnSou5" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/sou5" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnSou6" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/sou6" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnSou7" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/sou7" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnSou8" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/sou8" android:scaleType="fitCenter" android:padding="4dp" />
+                <ImageButton android:id="@+id/btnSou9" android:layout_width="44dp" android:layout_height="56dp" android:layout_margin="3dp" android:background="@drawable/tile_background" android:src="@drawable/sou9" android:scaleType="fitCenter" android:padding="4dp" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Completa tu combinación y luego ve a la pestaña 'Puntuación Extra' para finalizar."
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/scrollRow3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- CONTENT 2: Puntuación Extra Tab Layout -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layoutExtraScore"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Tsumo / Ron Toggle Group -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tipo de Victoria"
+                android:textColor="#34D399"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/toggleGroupWinType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                app:checkedButton="@id/btnToggleTsumo"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnToggleTsumo"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TSUMO"
+                    app:backgroundTint="@color/button_checked_background"
+                    android:textColor="@color/button_checked_text"
+                    app:strokeColor="@color/button_checked_stroke_green" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnToggleRon"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="RON"
+                    app:backgroundTint="@color/button_checked_background"
+                    android:textColor="@color/button_checked_text"
+                    app:strokeColor="@color/button_checked_stroke_green" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <!-- Counters Area -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <!-- Dora Counter Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#1E293B"
+                    app:cardCornerRadius="8dp"
+                    app:strokeColor="#334155"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dora"
+                            android:textColor="#94A3B8"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDoraMinus"
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="-"
+                                android:textSize="18sp"
+                                android:textColor="#F59E0B"
+                                android:padding="0dp" />
+
+                            <TextView
+                                android:id="@+id/textDoraValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:text="0"
+                                android:textColor="#F8FAFC"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDoraPlus"
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="+"
+                                android:textSize="18sp"
+                                android:textColor="#F59E0B"
+                                android:padding="0dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Honba Counter Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="#1E293B"
+                    app:cardCornerRadius="8dp"
+                    app:strokeColor="#334155"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Honba"
+                            android:textColor="#94A3B8"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnHonbaMinus"
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="-"
+                                android:textSize="18sp"
+                                android:textColor="#F59E0B"
+                                android:padding="0dp" />
+
+                            <TextView
+                                android:id="@+id/textHonbaValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginEnd="4dp"
+                                android:text="0"
+                                android:textColor="#F8FAFC"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnHonbaPlus"
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="+"
+                                android:textSize="18sp"
+                                android:textColor="#F59E0B"
+                                android:padding="0dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Viento de Ronda Selector -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Viento de ronda:"
+                    android:textColor="#94A3B8"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/toggleRoundWind"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="true"
+                    app:checkedButton="@id/btnRoundEast">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRoundEast"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="E"
+                        app:backgroundTint="@color/button_checked_background"
+                        android:textColor="@color/button_checked_text"
+                        app:strokeColor="@color/button_checked_stroke_grey" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRoundSouth"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="S"
+                        app:backgroundTint="@color/button_checked_background"
+                        android:textColor="@color/button_checked_text"
+                        app:strokeColor="@color/button_checked_stroke_grey" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRoundWest"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="W"
+                        app:backgroundTint="@color/button_checked_background"
+                        android:textColor="@color/button_checked_text"
+                        app:strokeColor="@color/button_checked_stroke_grey" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRoundNorth"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="N"
+                        app:backgroundTint="@color/button_checked_background"
+                        android:textColor="@color/button_checked_text"
+                        app:strokeColor="@color/button_checked_stroke_grey" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
+
+            <!-- Viento de Jugador Selector -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Viento de jugador:"
+                    android:textColor="#94A3B8"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/togglePlayerWind"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="true"
+                    app:checkedButton="@id/btnPlayerEast">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPlayerEast"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="E"
+                        app:backgroundTint="@color/button_checked_background"
+                        android:textColor="@color/button_checked_text"
+                        app:strokeColor="@color/button_checked_stroke_grey" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPlayerSouth"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="S"
+                        app:backgroundTint="@color/button_checked_background"
+                        android:textColor="@color/button_checked_text"
+                        app:strokeColor="@color/button_checked_stroke_grey" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPlayerWest"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="W"
+                        app:backgroundTint="@color/button_checked_background"
+                        android:textColor="@color/button_checked_text"
+                        app:strokeColor="@color/button_checked_stroke_grey" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPlayerNorth"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="N"
+                        app:backgroundTint="@color/button_checked_background"
+                        android:textColor="@color/button_checked_text"
+                        app:strokeColor="@color/button_checked_stroke_grey" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
+
+            <!-- Yaku / Special Status Modifiers -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Condiciones Especiales"
+                android:textColor="#34D399"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="3"
+                android:alignmentMode="alignBounds"
+                android:columnOrderPreserved="false"
+                android:layout_marginBottom="24dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRiichi"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="Riichi"
+                    app:backgroundTint="@color/button_checked_background"
+                    android:textColor="@color/button_checked_text"
+                    android:checkable="true"
+                    app:strokeColor="@color/button_checked_stroke_grey" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnIppatsu"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="Ippatsu"
+                    app:backgroundTint="@color/button_checked_background"
+                    android:textColor="@color/button_checked_text"
+                    android:checkable="true"
+                    app:strokeColor="@color/button_checked_stroke_grey" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDaburuRiichi"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="Daburu Riichi"
+                    app:backgroundTint="@color/button_checked_background"
+                    android:textColor="@color/button_checked_text"
+                    android:checkable="true"
+                    app:strokeColor="@color/button_checked_stroke_grey" />
+
+                <!-- Conditionally Haitei (Tsumo) / Houtei (Ron) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnHaiteiHoutei"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="Haitei"
+                    app:backgroundTint="@color/button_checked_background"
+                    android:textColor="@color/button_checked_text"
+                    android:checkable="true"
+                    app:strokeColor="@color/button_checked_stroke_grey" />
+
+                <!-- Rinshan Kaihou (Winning on replacement tile after Kan) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRinshanKaihou"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="Rinshan Kaihou"
+                    app:backgroundTint="@color/button_checked_background"
+                    android:textColor="@color/button_checked_text"
+                    android:checkable="true"
+                    app:strokeColor="@color/button_checked_stroke_grey" />
+            </GridLayout>
+
+            <!-- Calculate Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCalculate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="CALCULAR PUNTUACIÓN"
+                android:textColor="#0F172A"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="#F59E0B"
+                app:cornerRadius="8dp"
+                android:layout_marginBottom="32dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0F172A"
+    android:padding="16dp"
+    android:fitsSystemWindows="true"
+    tools:context=".ScoreActivity">
+
+    <!-- Top Navigation Header -->
+    <TextView
+        android:id="@+id/textHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PUNTUACIÓN FINAL"
+        android:textColor="#34D399"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/textHeader"
+        app:layout_constraintBottom_toTopOf="@id/btnBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Hand Display Card -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Combinación ganadora:"
+                android:textColor="#94A3B8"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardWinningHand"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:backgroundTint="#FDFBF7"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:strokeColor="#E2E8F0"
+                app:strokeWidth="1dp"
+                android:layout_marginBottom="16dp">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:scrollbars="none"
+                    android:padding="6dp">
+
+                    <LinearLayout
+                        android:id="@+id/winningTilesLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical" />
+                </HorizontalScrollView>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Score Display Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardScoreTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#1E293B"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="#10B981"
+                app:strokeWidth="1.5dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/textWinTypeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TSUMO (ESTE)"
+                        android:textColor="#34D399"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.05"/>
+
+                    <TextView
+                        android:id="@+id/textPointsTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12.000 pts"
+                        android:textColor="#F59E0B"
+                        android:textSize="36sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:id="@+id/textHanCountLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total: 6 Han (6 Honba)"
+                        android:textColor="#94A3B8"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Payment Details Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#1E293B"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="#334155"
+                app:strokeWidth="1dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Desglose de Pago"
+                        android:textColor="#F8FAFC"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:id="@+id/textPaymentDetail1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cada jugador paga: 6.000 pts"
+                        android:textColor="#E2E8F0"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:id="@+id/textPaymentDetail2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Desglose: 6.000 pts base + 0 pts Honba"
+                        android:textColor="#94A3B8"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Yakus List Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#1E293B"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="#334155"
+                app:strokeWidth="1dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Combinaciones y Yakus"
+                        android:textColor="#F8FAFC"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Container where Yaku rows are dynamically added -->
+                    <LinearLayout
+                        android:id="@+id/containerYakusList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Return Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="NUEVA COMBINACIÓN"
+        android:textColor="#F8FAFC"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:backgroundTint="#10B981"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
