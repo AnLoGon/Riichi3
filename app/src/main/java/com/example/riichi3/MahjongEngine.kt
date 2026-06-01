@@ -165,7 +165,6 @@ object MahjongEngine {
         }
     }
 
-    // 2. Yaku evaluation engine
     fun evaluateHand(
         closedTiles: List<Tile>,
         declaredMelds: List<DeclaredMeld>,
@@ -177,7 +176,8 @@ object MahjongEngine {
         hasDaburuRiichi: Boolean,
         hasIppatsu: Boolean,
         hasHaiteiOrHoutei: Boolean,
-        hasRinshanKaihou: Boolean
+        hasRinshanKaihou: Boolean,
+        winningTile: Tile? = null
     ): EvaluationResult {
         val totalTilesCount = closedTiles.size + declaredMelds.size * 3
         if (totalTilesCount != 14) {
@@ -207,7 +207,8 @@ object MahjongEngine {
                 hasDaburuRiichi,
                 hasIppatsu,
                 hasHaiteiOrHoutei,
-                hasRinshanKaihou
+                hasRinshanKaihou,
+                winningTile
             )
 
             if (bestResult == null || result.totalHan > bestResult.totalHan ||
@@ -233,7 +234,8 @@ object MahjongEngine {
         hasDaburuRiichi: Boolean,
         hasIppatsu: Boolean,
         hasHaiteiOrHoutei: Boolean,
-        hasRinshanKaihou: Boolean
+        hasRinshanKaihou: Boolean,
+        winningTile: Tile?
     ): EvaluationResult {
         val yakumans = mutableListOf<String>()
 
@@ -407,7 +409,33 @@ object MahjongEngine {
                                 partition.pair.type != roundWind &&
                                 partition.pair.type != playerWind
             if (allChows && pairValueless) {
-                normalYakus.add("Pinfu" to 1)
+                var isRyanzan = true
+                if (winningTile != null) {
+                    isRyanzan = false
+                    for (meld in partition.melds) {
+                        if (meld.type == MeldType.CHOW) {
+                            val tiles = meld.tiles.sortedBy { it.type.value }
+                            if (tiles.size == 3) {
+                                val t1 = tiles[0]
+                                val t3 = tiles[2]
+                                if (winningTile.type == t1.type) {
+                                    if (t1.type.value != 7) {
+                                        isRyanzan = true
+                                        break
+                                    }
+                                } else if (winningTile.type == t3.type) {
+                                    if (t3.type.value != 3) {
+                                        isRyanzan = true
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (isRyanzan) {
+                    normalYakus.add("Pinfu" to 1)
+                }
             }
         }
 

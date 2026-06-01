@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val declaredMelds = mutableListOf<DeclaredMeld>()
     private var doraCount = 0
     private var honbaValue = 0 // Displays as 0, 200, 400, etc.
+    private var winningTile: Tile? = null
 
     // Meld Selection Modes State
     private var activeMeldMode: MeldSource? = null
@@ -281,8 +282,10 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "No puedes colocar más de 4 fichas idénticas de '${tileType.displayName}'.", Toast.LENGTH_SHORT).show()
                     return
                 }
-                selectedTiles.add(Tile(tileType))
+                val addedTile = Tile(tileType)
+                selectedTiles.add(addedTile)
                 selectedTiles.sort()
+                winningTile = addedTile
                 refreshBoard()
             }
             MeldSource.CHI -> {
@@ -357,7 +360,9 @@ class MainActivity : AppCompatActivity() {
                 imageView.setImageResource(resId)
             }
 
-            if (tile.type == TileType.WHITE) {
+            if (tile === winningTile) {
+                imageView.setBackgroundResource(R.drawable.tile_background_winning)
+            } else if (tile.type == TileType.WHITE) {
                 imageView.setBackgroundResource(R.drawable.tile_background_white_dragon)
             } else {
                 imageView.setBackgroundResource(R.drawable.tile_background)
@@ -369,6 +374,9 @@ class MainActivity : AppCompatActivity() {
             imageView.setOnClickListener {
                 selectedTiles.remove(tile)
                 selectedTiles.sort()
+                if (winningTile === tile) {
+                    winningTile = selectedTiles.lastOrNull()
+                }
                 refreshBoard()
             }
             boardTilesLayout.addView(imageView)
@@ -590,7 +598,8 @@ class MainActivity : AppCompatActivity() {
             hasDaburuRiichi = hasDaburuRiichi,
             hasIppatsu = hasIppatsu,
             hasHaiteiOrHoutei = hasHaiteiOrHoutei,
-            hasRinshanKaihou = hasRinshanKaihou
+            hasRinshanKaihou = hasRinshanKaihou,
+            winningTile = winningTile
         )
 
         if (!evalResult.isWin || evalResult.errorMessage != null) {
@@ -617,6 +626,7 @@ class MainActivity : AppCompatActivity() {
         // Launch Result Activity
         val intent = Intent(this, ScoreActivity::class.java).apply {
             putStringArrayListExtra("selectedTiles", ArrayList(selectedTiles.map { it.type.drawableName }))
+            putExtra("winningTile", winningTile?.type?.drawableName)
             putStringArrayListExtra("meldSources", meldSources)
             putStringArrayListExtra("meldTiles", meldTiles)
             putExtra("isTsumo", isTsumo)
@@ -642,6 +652,7 @@ class MainActivity : AppCompatActivity() {
         declaredMelds.clear()
         doraCount = 0
         honbaValue = 0
+        winningTile = null
         setMeldMode(null)
         
         toggleRoundWind.check(R.id.btnRoundEast)

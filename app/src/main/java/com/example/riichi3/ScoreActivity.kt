@@ -16,6 +16,7 @@ class ScoreActivity : AppCompatActivity() {
 
         // 1. Unpack data from Intent
         val selectedTiles = intent.getStringArrayListExtra("selectedTiles") ?: arrayListOf()
+        val winningTileName = intent.getStringExtra("winningTile")
         val meldSources = intent.getStringArrayListExtra("meldSources") ?: arrayListOf()
         val meldTiles = intent.getStringArrayListExtra("meldTiles") ?: arrayListOf()
         val isTsumo = intent.getBooleanExtra("isTsumo", false)
@@ -45,6 +46,7 @@ class ScoreActivity : AppCompatActivity() {
 
         // 3. Render winning hand tiles on the static board
         winningTilesLayout.removeAllViews()
+        var winningTileHighlighted = false
         for (tileDrawableName in selectedTiles) {
             val imageView = ImageView(this)
             
@@ -66,7 +68,10 @@ class ScoreActivity : AppCompatActivity() {
             }
 
             // Set rounded physical tile background
-            if (tileDrawableName == "white_dragon") {
+            if (tileDrawableName == winningTileName && !winningTileHighlighted) {
+                imageView.setBackgroundResource(R.drawable.tile_background_winning)
+                winningTileHighlighted = true
+            } else if (tileDrawableName == "white_dragon") {
                 imageView.setBackgroundResource(R.drawable.tile_background_white_dragon)
             } else {
                 imageView.setBackgroundResource(R.drawable.tile_background)

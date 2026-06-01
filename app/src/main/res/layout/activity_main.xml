@@ -398,6 +398,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:singleSelection="true"
+                app:selectionRequired="true"
                 app:checkedButton="@id/btnToggleTsumo"
                 android:layout_marginBottom="16dp">
 
@@ -587,6 +588,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:singleSelection="true"
+                    app:selectionRequired="true"
                     app:checkedButton="@id/btnRoundEast">
 
                     <com.google.android.material.button.MaterialButton
@@ -656,6 +658,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:singleSelection="true"
+                    app:selectionRequired="true"
                     app:checkedButton="@id/btnPlayerEast">
 
                     <com.google.android.material.button.MaterialButton

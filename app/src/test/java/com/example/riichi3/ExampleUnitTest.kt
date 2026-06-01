@@ -327,4 +327,123 @@ class ExampleUnitTest {
         assertTrue("Should contain Rinshan Kaihou Yaku", yakuNames.any { it.contains("Rinshan Kaihou") })
         assertEquals("Total Han should be 1 (only Rinshan Kaihou)", 1, result.totalHan)
     }
+
+    @Test
+    fun testPinfuWaitRestrictions() {
+        // Closed Hand portion: PIN 2-3-4, PIN 5-6-7, SOU 3-4-5, SOU 6-7-8, SOU 2-2
+        // All four are Chows, Pair is SOU 2 (valueless).
+        
+        // Case 1: Winning tile is PIN 2. Completes PIN 2-3-4 from the left (wait was 2 with 3-4 shape).
+        // This is a valid two-sided wait (can wait for 2 or 5). Should receive Pinfu!
+        val tiles1 = createHand(
+            TileType.PIN3, TileType.PIN4, TileType.PIN5, TileType.PIN6, TileType.PIN7,
+            TileType.SOU3, TileType.SOU4, TileType.SOU5, TileType.SOU6, TileType.SOU7, TileType.SOU8,
+            TileType.SOU2, TileType.SOU2,
+            TileType.PIN2 // Added last as winning tile!
+        )
+        val result1 = MahjongEngine.evaluateHand(
+            closedTiles = tiles1,
+            declaredMelds = emptyList(),
+            isTsumo = true,
+            doraCount = 0,
+            roundWind = TileType.EAST,
+            playerWind = TileType.SOUTH,
+            hasRiichi = false,
+            hasDaburuRiichi = false,
+            hasIppatsu = false,
+            hasHaiteiOrHoutei = false,
+            hasRinshanKaihou = false,
+            winningTile = Tile(TileType.PIN2)
+        )
+        assertTrue(result1.isWin)
+        assertTrue("Should contain Pinfu for valid Ryanzan wait", result1.yakuList.any { it.first.contains("Pinfu") })
+
+        // Case 2: Hand completes with SOU 3 completing sequence 1-2-3 (Edge wait / Penchan wait).
+        // PIN 5-6-7, SOU 4-5-6, SOU 7-8-9, SOU 2-2, SOU 1-2 (closed portion)
+        // Winning tile is SOU 3 (wait was 3 on 1-2).
+        // This is an invalid edge wait (Penchan). Should NOT receive Pinfu!
+        val tiles2 = createHand(
+            TileType.PIN5, TileType.PIN6, TileType.PIN7,
+            TileType.SOU4, TileType.SOU5, TileType.SOU6,
+            TileType.SOU7, TileType.SOU8, TileType.SOU9,
+            TileType.SOU2, TileType.SOU2,
+            TileType.SOU1, TileType.SOU2,
+            TileType.SOU3 // Added last as winning tile!
+        )
+        val result2 = MahjongEngine.evaluateHand(
+            closedTiles = tiles2,
+            declaredMelds = emptyList(),
+            isTsumo = true,
+            doraCount = 0,
+            roundWind = TileType.EAST,
+            playerWind = TileType.SOUTH,
+            hasRiichi = false,
+            hasDaburuRiichi = false,
+            hasIppatsu = false,
+            hasHaiteiOrHoutei = false,
+            hasRinshanKaihou = false,
+            winningTile = Tile(TileType.SOU3)
+        )
+        // Hand should still be a win (since it has Tsumo Yaku), but should NOT contain Pinfu!
+        assertTrue(result2.isWin)
+        assertFalse("Should NOT contain Pinfu for Penchan wait", result2.yakuList.any { it.first.contains("Pinfu") })
+
+        // Case 3: Hand completes with SOU 2 completing sequence 1-2-3 (Middle wait / Kanchan wait).
+        // PIN 5-6-7, SOU 4-5-6, SOU 7-8-9, SOU 8-8 (pair), SOU 1-3 (closed portion)
+        // Winning tile is SOU 2 (wait was 2 on 1-3).
+        // This is an invalid middle wait (Kanchan). Should NOT receive Pinfu!
+        val tiles3 = createHand(
+            TileType.PIN5, TileType.PIN6, TileType.PIN7,
+            TileType.SOU4, TileType.SOU5, TileType.SOU6,
+            TileType.SOU7, TileType.SOU8, TileType.SOU9,
+            TileType.SOU8, TileType.SOU8,
+            TileType.SOU1, TileType.SOU3,
+            TileType.SOU2 // Added last as winning tile!
+        )
+        val result3 = MahjongEngine.evaluateHand(
+            closedTiles = tiles3,
+            declaredMelds = emptyList(),
+            isTsumo = true,
+            doraCount = 0,
+            roundWind = TileType.EAST,
+            playerWind = TileType.SOUTH,
+            hasRiichi = false,
+            hasDaburuRiichi = false,
+            hasIppatsu = false,
+            hasHaiteiOrHoutei = false,
+            hasRinshanKaihou = false,
+            winningTile = Tile(TileType.SOU2)
+        )
+        assertTrue(result3.isWin)
+        assertFalse("Should NOT contain Pinfu for Kanchan wait", result3.yakuList.any { it.first.contains("Pinfu") })
+
+        // Case 4: Hand completes with SOU 2 completing the pair SOU 2-2 (Pair wait / Tanki wait).
+        // PIN 2-3-4, PIN 5-6-7, SOU 3-4-5, SOU 6-7-8, SOU 2 (closed portion)
+        // Winning tile is SOU 2 (wait was 2 on single 2).
+        // This is an invalid pair wait (Tanki). Should NOT receive Pinfu!
+        val tiles4 = createHand(
+            TileType.PIN2, TileType.PIN3, TileType.PIN4,
+            TileType.PIN5, TileType.PIN6, TileType.PIN7,
+            TileType.SOU3, TileType.SOU4, TileType.SOU5,
+            TileType.SOU6, TileType.SOU7, TileType.SOU8,
+            TileType.SOU2,
+            TileType.SOU2 // Added last as winning tile!
+        )
+        val result4 = MahjongEngine.evaluateHand(
+            closedTiles = tiles4,
+            declaredMelds = emptyList(),
+            isTsumo = true,
+            doraCount = 0,
+            roundWind = TileType.EAST,
+            playerWind = TileType.SOUTH,
+            hasRiichi = false,
+            hasDaburuRiichi = false,
+            hasIppatsu = false,
+            hasHaiteiOrHoutei = false,
+            hasRinshanKaihou = false,
+            winningTile = Tile(TileType.SOU2)
+        )
+        assertTrue(result4.isWin)
+        assertFalse("Should NOT contain Pinfu for Tanki wait", result4.yakuList.any { it.first.contains("Pinfu") })
+    }
 }
